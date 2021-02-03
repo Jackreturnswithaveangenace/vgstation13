@@ -631,6 +631,9 @@
 	else if(istype(O,/obj/machinery/space_heater/campfire))
 		var/obj/machinery/space_heater/campfire/campfire = O
 		campfire.snuff()
+	else if(istype(O, /obj/item/weapon/book/manual/snow))
+		var/obj/item/weapon/book/manual/snow/S = O
+		S.trigger()
 	else if(O.on_fire) // For extinguishing objects on fire
 		O.extinguish()
 	else if(O.molten) // Molten shit.
@@ -8755,7 +8758,7 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 
 
 /datum/reagent/diabeetusol
-	name = "diabeetusol"
+	name = "Diabeetusol"
 	id = DIABEETUSOL
 	description = "The mistaken byproduct of confectionery science. Targets the beta pancreatic cells, or equivalent, in carbon based life to not only cease insulin production but begin producing what medical science can only describe as 'the concept of obesity given tangible form'."
 	reagent_state = REAGENT_STATE_LIQUID
@@ -8796,7 +8799,7 @@ var/global/list/tonio_doesnt_remove=list("tonio", "blood")
 
 
 /datum/reagent/ectoplasm
-	name = "ectoplasm"
+	name = "Ectoplasm"
 	id = ECTOPLASM
 	description = "Pure, distilled spooky"
 	reagent_state = REAGENT_STATE_LIQUID
