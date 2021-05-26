@@ -105,7 +105,7 @@
 
 /datum/recipe/donutburger
 	items = list(
-		/obj/item/weapon/reagent_containers/food/snacks/meat/animal,
+		/obj/item/weapon/reagent_containers/food/snacks/meat,
 		/obj/item/weapon/reagent_containers/food/snacks/donut/normal,
 		/obj/item/weapon/reagent_containers/food/snacks/donut/normal
 		)
@@ -2882,3 +2882,10 @@
 		)
 	result = /obj/item/weapon/reagent_containers/food/snacks/lobster_sushi
 
+/datum/recipe/sweetroll
+	reagents = list(FLOUR = 5, SUGAR = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/butter,
+		)
+	result = /obj/item/weapon/reagent_containers/food/snacks/sweetroll

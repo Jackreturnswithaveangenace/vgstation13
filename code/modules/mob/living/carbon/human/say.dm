@@ -21,7 +21,7 @@
 
 //	if(dna)
 //		return "[dna.species.say_mod], \"[text]\"";
-
+	handle_spaghetti(20) // 20% chance to spill spaghetti when saying something, if in pockets -kanef
 	return "says, [text]";
 
 // Use this for an override of the spoken verb.
@@ -98,6 +98,11 @@
 		else
 			return real_name
 
+	if(istype(head, /obj/item/clothing/head/culthood))
+		var/obj/item/clothing/head/culthood/C = head
+		if(C.anon_mode)
+			return "Unknown"
+
 	if(mind) // monkeyhumans exist, don't descriminate
 		var/datum/role/changeling/changeling = mind.GetRole(CHANGELING)
 		if(changeling && changeling.mimicing)
@@ -165,7 +170,7 @@
 
 /mob/living/carbon/human/get_alt_name()
 	if(name != GetVoice())
-		return get_id_name("Unknown")
+		return get_worn_id_name("Unknown")
 	return null
 
 /mob/living/carbon/human/say_understands(var/mob/other,var/datum/language/speaking = null)

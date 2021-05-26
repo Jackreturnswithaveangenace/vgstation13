@@ -513,10 +513,14 @@
 	cult.cult_reminders += text
 	for(var/datum/role/cultist/C in cult.members)
 		var/datum/mind/M = C.antag
-		if (M.GetRole(CULTIST))//failsafe for cultist brains put in MMIs
+		if (iscultist(M.current))//failsafe for cultist brains put in MMIs
 			to_chat(M.current, "<span class='game say'><b>[user.real_name]</b>'s voice echoes in your head, <B><span class='sinister'>[reminder]</span></span>")
 			to_chat(M.current, "<span class='notice'>This message will be remembered by all current cultists, and by new converts as well.</span>")
 			M.store_memory("Cult reminder: [text].")
+
+	for(var/mob/living/simple_animal/astral_projection/A in astral_projections)
+		to_chat(A, "<span class='game say'><b>[user.real_name]</b> communicates, <span class='sinister'>[reminder]</span></span>. (Cult reminder)")
+		to_chat(A, "<span class='notice'>This message will be remembered by all current cultists, and by new converts as well.</span>")
 
 	for(var/mob/dead/observer/O in player_list)
 		to_chat(O, "<span class='game say'><b>[user.real_name]</b> communicates, <span class='sinister'>[reminder]</span></span>. (Cult reminder)")
@@ -528,11 +532,14 @@
 	if(!message)
 		return
 
-	var/datum/faction/bloodcult = find_active_faction_by_member(activator.mind.GetRole(CULTIST))
+	var/datum/faction/bloodcult = find_active_faction_by_member(iscultist(activator))
 	for(var/datum/role/cultist/C in bloodcult.members)
 		var/datum/mind/M = C.antag
-		if (M.GetRole(CULTIST))//failsafe for cultist brains put in MMIs
+		if (iscultist(M.current))//failsafe for cultist brains put in MMIs
 			to_chat(M.current, "<span class='game say'><b>[activator.real_name]</b>'s voice echoes in your head, <B><span class='sinister'>[message]</span></B></span>")
+
+	for(var/mob/living/simple_animal/astral_projection/A in astral_projections)
+		to_chat(A, "<span class='game say'><b>[activator.real_name]</b> communicates, <span class='sinister'>[message]</span></span>")
 
 	for(var/mob/dead/observer/O in player_list)
 		to_chat(O, "<span class='game say'><b>[activator.real_name]</b> communicates, <span class='sinister'>[message]</span></span>")
@@ -585,13 +592,15 @@
 			speaker_name = H.real_name
 			L = speech.speaker
 		rendered_message = speech.render_message()
-		var/datum/faction/bloodcult = find_active_faction_by_member(L.mind.GetRole(CULTIST))
+		var/datum/faction/bloodcult = find_active_faction_by_member(iscultist(L))
 		for(var/datum/role/cultist/C in bloodcult.members)
 			var/datum/mind/M = C.antag
 			if (M.current == speech.speaker)//echoes are annoying
 				continue
-			if (M.GetRole(CULTIST))//failsafe for cultist brains put in MMIs
+			if (iscultist(M.current))//failsafe for cultist brains put in MMIs
 				to_chat(M.current, "<span class='game say'><b>[speaker_name]</b>'s voice echoes in your head, <B><span class='sinister'>[speech.message]</span></B></span>")
+		for(var/mob/living/simple_animal/astral_projection/A in astral_projections)
+			to_chat(A, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinister'>[speech.message]</span></span>")
 		for(var/mob/dead/observer/O in player_list)
 			to_chat(O, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinister'>[speech.message]</span></span>")
 		log_cultspeak("[key_name(speech.speaker)] Cult Communicate Rune: [rendered_message]")
@@ -1145,7 +1154,7 @@
 				var/obj/item/weapon/handcuffs/cult/restraints = new(victim)
 				victim.handcuffed = restraints
 				restraints.on_restraint_apply(victim)//a jolt of pain to slow them down
-				restraints.gaoler = converter.mind.GetRole(CULTIST)
+				restraints.gaoler = iscultist(converter)
 				victim.update_inv_handcuffed()	//update handcuff overlays
 
 				if (success == CONVERSION_NOCHOICE)
@@ -1896,7 +1905,7 @@ var/list/blind_victims = list()
 	word3 = /datum/runeword/blood_cult/other
 	rune_flags = RUNE_STAND
 	talisman_uses = 3
-	page = "This rune, which you have to stand above to use, equips your character with cult gear. Namely, Cult Hood, Cult Robes, Cult Shoes, and a Cult Backpack. Wearing cult gear improves your efficiency with a few rituals (see Tools section bellow) on top of granting you very decent armor values. After using the rune, a Blood Tesseract appears in your hand, containing clothes that had to be swapped out because you were already wearing them in your head/suit slots. You can use it to get your clothing back instantly. Lastly, the talisman version has 3 uses, and gets back in your hand after you use the Blood Tesseract. The inventory of your backpack gets always gets transferred upon use. "
+	page = "This rune, which you have to stand above to use, equips your character with cult gear. Namely, Cult Hood, Cult Robes, Cult Shoes, and a Cult Backpack. Wearing cult gear improves your efficiency with a few rituals (see Tools section below) on top of granting you very decent armor values. After using the rune, a Blood Tesseract appears in your hand, containing clothes that had to be swapped out because you were already wearing them in your head/suit slots. You can use it to get your clothing back instantly. Lastly, the talisman version has 3 uses, and gets back in your hand after you use the Blood Tesseract. The inventory of your backpack gets always gets transferred upon use. "
 	var/list/slots_to_store = list(
 		slot_shoes,
 		slot_head,
@@ -2093,7 +2102,7 @@ var/list/blind_victims = list()
 
 	var/list/possible_targets = list()
 	var/list/prisoners = list()
-	var/datum/faction/bloodcult/bloodcult = find_active_faction_by_member(activator.mind.GetRole(CULTIST))
+	var/datum/faction/bloodcult/bloodcult = find_active_faction_by_member(iscultist(activator))
 	for(var/datum/role/cultist/C in bloodcult.members)
 		var/datum/mind/M = C.antag
 		possible_targets.Add(M.current)
@@ -2534,16 +2543,16 @@ var/list/bloodcult_exitportals = list()
 //RUNE XIX
 /datum/rune_spell/blood_cult/astraljourney
 	name = "Astral Journey"
-	desc = "Leave your body so you can go spy on your enemies."
+	desc = "Channel a fragment of your soul into an astral projection so you can spy on the crew and communicate your findings with the rest of the cult."
 	desc_talisman = "Leave your body so you can go spy on your enemies."
 	Act_restriction = CULT_ACT_I
 	invocation = "Fwe'sh mah erl nyag r'ya!"
 	word1 = /datum/runeword/blood_cult/hell
 	word2 = /datum/runeword/blood_cult/travel
 	word3 = /datum/runeword/blood_cult/self
-	page = "Upon use, you will fall asleep, and your soul will float above your body, allowing you to freely move around the Z-Level like a ghost would. However, you cannot talk with other ghosts, or listen to them, or use any of the usual ghost verbs beside re-entering your body. Re-entering your body, or it being moved away from the rune will end the ritual, and you'll wake up after a second or so. You might have to use the rest verb to get back up. As it can be used for any period of time, it's a great, though limited, spying tool. Should your body be destroyed while you were using the rune, attempting to re-enter it will grant you the rest of the ghost verbs and abilities back. "
+	page = "Upon use, your soul will float above your body, allowing you to freely move invisibly around the Z-Level. Words you speak while in this state will be heard by everyone in the cult. You can also become tangible which lets you converse with people, but taking any damage while in this state will end the ritual. Your body being moved away from the rune will also end the ritual. Should your body die while you were still using the rune, a shade will form wherever your astral projection stands."
 	rune_flags = RUNE_STAND
-	var/mob/dead/observer/deafmute/astral = null
+	var/mob/living/simple_animal/astral_projection/astral = null
 	var/cultist_key = ""
 	var/list/restricted_verbs = list()
 
@@ -2552,49 +2561,15 @@ var/list/bloodcult_exitportals = list()
 	R.one_pulse()
 
 	cultist_key = activator.key
-	if (ishuman(activator))
-		activator.sleeping = max(activator.sleeping,2)
-		activator.stat = UNCONSCIOUS
-		activator.resting = 1
-	activator.ajourn = spell_holder
 
-	var/list/antag_icons = list()
-	if (activator.client)
-		for (var/image/I in activator.client.images)
-			if (I.plane == ANTAG_HUD_PLANE)
-				antag_icons += image(I,I.loc)
-
-	to_chat(activator, "<span class='notice'>As you recite the invocation, your body falls over the rune, but your consciousness still stands up above it.</span>")
-	astral = activator.ghostize(1,1)
-
-	astral.icon = 'icons/mob/mob.dmi'
-	astral.icon_state = "ghost-narsie"
-	astral.overlays.len = 0
-	if (ishuman(activator))
-		var/mob/living/carbon/human/H = activator
-		astral.overlays += H.obj_overlays[ID_LAYER]
-		astral.overlays += H.obj_overlays[EARS_LAYER]
-		astral.overlays += H.obj_overlays[SUIT_LAYER]
-		astral.overlays += H.obj_overlays[GLASSES_LAYER]
-		astral.overlays += H.obj_overlays[GLASSES_OVER_HAIR_LAYER]
-		astral.overlays += H.obj_overlays[BELT_LAYER]
-		astral.overlays += H.obj_overlays[BACK_LAYER]
-		astral.overlays += H.obj_overlays[HEAD_LAYER]
-		astral.overlays += H.obj_overlays[HANDCUFF_LAYER]
-
-	for (var/V in astral.verbs)//restricting the verbs! all they can do is re-enter their body.
-		if ((copytext("[V]",1,10) == "/mob/dead") && ("[V]" != "/mob/dead/observer/verb/reenter_corpse"))
-			restricted_verbs += V
-			astral.verbs -= V
+	to_chat(activator, "<span class='notice'>As you recite the invocation, you feel your consciousness rise up in the air above your body.</span>")
+	//astral = activator.ghostize(1,1)
+	astral = new(activator.loc)
+	astral.ascend(activator)
+	activator.ajourn = src
 
 	step(astral,NORTH)
 	astral.dir = SOUTH
-	astral.movespeed = 0.375//twice the default ghost move speed
-	astral.see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
-
-	if (astral.client)
-		for (var/image/I in antag_icons)
-			astral.client.images += I
 
 	spawn()
 		handle_astral()
@@ -2607,19 +2582,11 @@ var/list/bloodcult_exitportals = list()
 
 
 /datum/rune_spell/blood_cult/astraljourney/abort(var/cause)
-	if (activator && activator.loc && cultist_key)
-		activator.key = cultist_key
-		to_chat(activator, "<span class='notice'>You reconnect with your body.</span>")
-	else
-		if (astral)
-			to_chat(astral, "<span class='notice'>The ritual somehow lost track of your body. You are now fully disconnected from it, and a fully fledged ghost.</span>")
-			for (var/V in restricted_verbs)//since they're a real ghost now, let's give them back the rest of their verbs.
-				astral.verbs += V
+	qdel(astral)
 	..()
 
 /datum/rune_spell/blood_cult/astraljourney/proc/handle_astral()
-	while(!destroying_self && activator && astral && astral.loc && activator.stat == UNCONSCIOUS && activator.loc == spell_holder.loc)
-		activator.sleeping = max(activator.sleeping,2)
+	while(!destroying_self && activator && activator.stat != DEAD && astral && astral.loc && activator.loc == spell_holder.loc)
 		sleep(10)
 	abort()
 
@@ -2665,7 +2632,7 @@ var/list/bloodcult_exitportals = list()
 		to_chat(activator, "<span class='warning'>You have the ingredients, now there needs to be a ghost made visible standing above the rune.</span>")
 		qdel(src)
 		return
-	if (ghost.mind && ghost.mind.current && ghost.mind.current.ajourn && (ghost.mind.current.stat != DEAD))
+	if (ghost.mind && ghost.mind.current && (ghost.mind.current.stat != DEAD))
 		to_chat(activator, "<span class='warning'>This ghost still has a breathing body where to return to.</span>")
 		qdel(src)
 		return

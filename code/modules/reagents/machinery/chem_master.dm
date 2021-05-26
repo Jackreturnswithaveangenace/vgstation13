@@ -143,6 +143,13 @@ var/global/list/pillIcon2Name = list("oblong purple-pink", "oblong green-white",
 	else if(istype(B, /obj/item/weapon/reagent_containers/pill))
 		B.icon_state = "pill"+pillsprite
 		var/name = stripped_input(user,"Name:","Name your pill!","[B.reagents.get_master_reagent_name()] ([B.reagents.total_volume] units)")
+		// April funs
+		if (Holiday == APRIL_FOOLS_DAY)
+			if (findtext(name, "Keloderm"))
+				name = replacetext(name, "Keloderm", "Derkel")
+			else if (findtext(name, "Derkel"))
+				name = replacetext(name, "Derkel", "Keloderm")
+
 		if(name)
 			B.name = "[name] pill"
 		else
@@ -193,6 +200,8 @@ var/global/list/pillIcon2Name = list("oblong purple-pink", "oblong green-white",
 				if(!condi)
 					if(istype(reagent, /datum/reagent/blood))
 						dat += "Blood type: [reagent.data["blood_type"] || "Unknown"]<BR>Blood DNA: [reagent.data["blood_DNA"] || "Unable to determine"]<BR><BR>"
+					else if(reagent.data["stored_phrase"])
+						dat += "The polymer chains currently read: \"[reagent.data["stored_phrase"]]\".<BR><BR>"
 					dat += "Density:<BR>[reagent.density]<BR><BR>Specific heat capacity:<BR>[reagent.specheatcap]<BR><BR><BR>"
 				dat += "<A href='?src=\ref[src];main=1'>(Back)</A>"
 

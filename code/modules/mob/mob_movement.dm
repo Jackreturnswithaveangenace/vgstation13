@@ -481,6 +481,9 @@
 			if(isobserver(mob))
 				var/mob/dead/observer/observer = mob
 				movedelay = observer.movespeed
+			else if (isanimal(mob))
+				var/mob/living/simple_animal/animal = mob
+				movedelay = animal.speed
 			mob.set_glide_size(DELAY2GLIDESIZE(movedelay))
 			var/turf/T = get_step(mob, direct)
 			var/area/A = get_area(T)
@@ -489,7 +492,7 @@
 			else
 				if((T && T.holy) && isobserver(mob))
 					var/mob/dead/observer/observer = mob
-					if(observer.invisibility == 0 || observer.mind && (find_active_faction_by_member(observer.mind.GetRole(LEGACY_CULTIST)) || find_active_faction_by_member(observer.mind.GetRole(CULTIST))))
+					if(observer.invisibility == 0 || observer.mind && (find_active_faction_by_member(observer.mind.GetRole(LEGACY_CULTIST)) || find_active_faction_by_member(iscultist(observer))))
 						to_chat(mob, "<span class='warning'>You cannot get past holy grounds while you are in this plane of existence!</span>")
 					else
 						mob.forceEnter(get_step(mob, direct))

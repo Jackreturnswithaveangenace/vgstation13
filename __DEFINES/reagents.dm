@@ -72,6 +72,7 @@
 #define GOLD 			"gold"
 #define SILVER 			"silver"
 #define URANIUM 			"uranium"
+#define DIAMONDDUST		"diamond"
 #define PHAZON 			"phazon"
 #define ALUMINUM 			"aluminum"
 #define SILICON 			"silicon"
@@ -83,6 +84,7 @@
 #define EZNUTRIENT 			"eznutrient"
 #define ROBUSTHARVEST 			"robustharvest"
 #define PLANTBGONE 			"plantbgone"
+#define INSECTICIDE 			"insecticide"
 #define PLASMA 			"plasma"
 #define LEPORAZINE 			"leporazine"
 #define CRYPTOBIOLIN 			"cryptobiolin"
@@ -197,6 +199,7 @@
 #define NOTHING 			"nothing"
 #define POTATO 			"potato"
 #define MILK 			"milk"
+#define MOMMIMILK 			"mommimilk"
 #define SOYMILK 			"soymilk"
 #define CREAM 			"cream"
 #define COFFEE 			"coffee"
@@ -264,6 +267,10 @@
 #define IRISHCREAM 			"irishcream"
 #define MANLYDORF 			"manlydorf"
 #define LONGISLANDICEDTEA 			"longislandicedtea"
+#define MUDSLIDE			"mudslide"
+#define BOYSENBERRY_BLIZZARD			"boysenberry_blizzard"
+#define SACRIFICIAL_MARY			"sacrificial_mary"
+#define CREAMY_HOT_COCO			"creamy_hot_coco"
 #define MOONSHINE 			"moonshine"
 #define MIDNIGHTKISS	"midnightkiss"
 #define COSMOPOLITAN	"cosmopolitan"
@@ -411,6 +418,8 @@
 #define SMOKYROOM		"smokyroom"
 #define BAD_TOUCH		"bad_touch"
 #define SUICIDE			"suicide"
+#define GRAVSINGULO 			"gravitationalsingulo"
+#define GRAVSINGULARITEA 			"gravitationalsingularitea"
 #define KARMOTRINE		"karmotrine"
 #define DEGENERATECALCIUM "degeneratecalcium"
 #define GRAPEJUICE		"grapejuice"
@@ -422,6 +431,7 @@
 #define IRONROT			"ironrot"
 #define GEOMETER		"geometer"
 #define EGG_YOLK		"egg_yolk"
+#define SPAGHETTI		"spaghetti"
 #define MUSTARD_POWDER	"mustard_powder"
 #define MAYO			"mayo"
 #define DIABEETUSOL		"diabeetusol"
@@ -440,6 +450,8 @@
 #define ANALYSIS_SAMPLE 			"analysis_sample"
 #define CHEMICAL_WASTE 			"chemical_waste"
 #define TRINITRINE		"trinitrine"
+#define MIDAZOLINE		"midazoline"
+#define LOCUTOGEN		"locutogen"
 
 //Plant-specific reagents
 #define TANNIC_ACID		"tannic_acid"
@@ -467,6 +479,7 @@
 #define SODIUMSILICATE	"sodiumsilicate"
 #define COLORFUL_REAGENT "colorful_reagent"
 #define AMINOMICIN		"aminomicin"
+#define AMINOMICIAN		"aminomician"
 #define AMINOCYPRINIDOL	"aminocyprinidol"
 #define TOMATO_SOUP		"tomato_soup"
 #define LUMINOL			"luminol"
@@ -515,6 +528,7 @@ var/list/cheartstopper = list(/*"potassium_chloride",*/ CHEESYGLOOP) //this stop
 #define LEXORINS list(LEXORIN, CORIAMYRTIN)
 #define DEXALINS list(DEXALIN, THYMOL)
 #define PETRITRICINCURES list(SACID, PACID, FORMIC_ACID, PACID, PHENOL, ACIDSPIT, ACIDTEA)
+#define WATERS list(WATER, HOLYWATER)
 
 #define INCENSE_HAREBELLS	"harebells"
 #define INCENSE_POPPIES		"poppies"
