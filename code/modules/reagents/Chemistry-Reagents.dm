@@ -397,6 +397,25 @@
 		"immunity" = null,
 		)
 
+/datum/reagent/blood/handle_special_behavior(var/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/D)
+	var/totally_not_blood = "Tomato Juice"
+
+	switch(color)
+		if (VOX_BLOOD)//#2299FC
+			totally_not_blood = "Space Lube"
+		if (INSECT_BLOOD)//#EBECE6
+			totally_not_blood = "Milk"
+		if (MUSHROOM_BLOOD)//#D3D3D3
+			totally_not_blood = "Milk"
+		if (PALE_BLOOD)//#272727
+			totally_not_blood = "Carbon"
+
+	glass_name = "glass of [totally_not_blood]"
+	glass_desc = "Are you sure this is [totally_not_blood]?"
+	mug_name = "mug of [totally_not_blood]"
+	mug_desc = "Are you sure this is [totally_not_blood]?"
+
+
 /datum/reagent/blood/reaction_mob(var/mob/living/M, var/method = TOUCH, var/volume)
 
 	var/datum/reagent/blood/self = src
@@ -5277,6 +5296,28 @@
 	M.Jitter(10)
 	// it also makes you hungry because it speeds up your metabolism
 	M.nutrition--
+
+/datum/reagent/tendies
+	name = "Tendies"
+	id = TENDIES
+	description = "Gimme gimme chicken tendies, be they crispy or from Wendys."
+	nutriment_factor = REAGENTS_METABOLISM
+	color = "#AB6F0E" //rgb: 171, 111, 14
+	density = 5
+	specheatcap = 1
+
+/datum/reagent/tendies/on_mob_life(var/mob/living/M)
+
+	if(..())
+		return 1
+
+	M.nutrition += REM * nutriment_factor
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.mind.assigned_role == "Janitor")
+			H.heal_organ_damage(1, 1)
+			H.nutrition += REM * nutriment_factor //Double nutrition
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////DRINKS BELOW, Beer is up there though, along with cola. Cap'n Pete's Cuban Spiced Rum//////////
